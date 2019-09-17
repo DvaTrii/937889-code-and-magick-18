@@ -54,15 +54,15 @@ window.renderStatistics = function (ctx, players, times) {
   var maxTime = getMaxElement(times);
   for (var i = 0; i < players.length; i++) {
     if (players[i] === 'Вы') {
-      //рисуем красным столбец игрока (Вы)
+      // рисуем красным столбец игрока (Вы)
       renderBar(ctx, 'rgba(255, 0, 0, 1)', CLOUD_X + TOTAL_GAP * i, CLOUD_Y_BAR, BAR_WIDTH, -BAR_HEIGHT * Math.round(times[i]) / Math.round(maxTime));
     } else {
-      //рисуем столбцы остальных игроков
-      renderBar(ctx,'hsl(240, ' + Math.round(Math.random() * 100) + '%, 50%)', CLOUD_X + TOTAL_GAP * i, CLOUD_Y_BAR, BAR_WIDTH, -BAR_HEIGHT * Math.round(times[i]) / Math.round(maxTime));
+      // рисуем столбцы остальных игроков
+      renderBar(ctx, 'hsl(240, ' + Math.round(Math.random() * 100) + '%, 50%)', CLOUD_X + TOTAL_GAP * i, CLOUD_Y_BAR, BAR_WIDTH, -BAR_HEIGHT * Math.round(times[i]) / Math.round(maxTime));
     }
-    //пишем имена игроков снизу
+    // пишем имена игроков снизу
     renderText(ctx, players[i], CLOUD_X + TOTAL_GAP * i, CLOUD_Y_TEXT);
-    //пишем результаты сверху
+    // пишем результаты сверху
     renderText(ctx, Math.floor(times[i]), CLOUD_X + TOTAL_GAP * i, CLOUD_Y_SCORE + BAR_HEIGHT - (BAR_HEIGHT * Math.round(times[i]) / Math.round(maxTime)));
   }
 };
