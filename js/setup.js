@@ -54,25 +54,27 @@ var WIZARD_COATCOLORS = [
 
 // генерируем случайные номер элемента в массиве
 var getRandomNumber = function (arryaName) {
-  var number = Math.floor(Math.random() * arryaName.length);
-  return number;
+  return Math.floor(Math.random() * arryaName.length);
 };
 
-// создаем пустой массив
-var wizards = [];
-
 // наполняем его волшебниками
-for (var j = 0; j < 4; j++) {
-  wizards.push({
-    name: WIZARD_NAMES[getRandomNumber(WIZARD_NAMES)],
-    lastName: WIZARD_LASTNAMES[getRandomNumber(WIZARD_LASTNAMES)],
-    coatColor: WIZARD_COATCOLORS[getRandomNumber(WIZARD_COATCOLORS)],
-    eyesColor: WIZARD_EYESCOLORS[getRandomNumber(WIZARD_EYESCOLORS)]
-  });
-}
+// создает массив волшебников
+var getWizards = function (amount) {
+  // создаем пустой массив
+  var wizards = [];
+  for (var j = 0; j < amount; j++) {
+    // пушим в него значения
+    wizards.push({
+      name: WIZARD_NAMES[getRandomNumber(WIZARD_NAMES)],
+      lastName: WIZARD_LASTNAMES[getRandomNumber(WIZARD_LASTNAMES)],
+      coatColor: WIZARD_COATCOLORS[getRandomNumber(WIZARD_COATCOLORS)],
+      eyesColor: WIZARD_EYESCOLORS[getRandomNumber(WIZARD_EYESCOLORS)]
+    });
+  }
+  return wizards;
+};
 
 // заполним 4мя персонажами (разметкой div(temp)) нужный нам div(ins)
-
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name + ' ' + wizard.lastName;
@@ -82,10 +84,9 @@ var renderWizard = function (wizard) {
 };
 
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
+for (var i = 0; i < getWizards(4).length; i++) {
+  fragment.appendChild(renderWizard(getWizards(4)[i]));
 }
 
 similarListElement.appendChild(fragment);
-
 
