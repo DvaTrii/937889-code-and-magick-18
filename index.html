@@ -71,22 +71,24 @@
   <form class="setup-wizard-form"
         method="post"
         enctype="multipart/form-data"
+        action="https://js.dump.academy/code-and-magick"
         autocomplete="off">
 
     <div class="setup-title">
       <div class="setup-user">
         <div class="upload">
-          <img class="setup-user-pic" src="./img/user-1.jpg"/>
+          <img class="setup-user-pic" src="./img/user-1.jpg" tabindex="0"/>
           <input type="file" name="avatar">
         </div>
         <label>
           <input type="text" name="username"
+                 minlength="2"
                  maxlength="25" required
                  class="setup-user-name" value="Синий Пендальф"/>
         </label>
       </div>
 
-      <span class="setup-close">&times;</span>
+      <span class="setup-close" tabindex="0">&times;</span>
     </div>
 
 

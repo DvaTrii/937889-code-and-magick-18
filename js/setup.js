@@ -1,7 +1,88 @@
 'use strict';
+
+// магические кнопки esc enter
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 // показали область настройки - убрали класс hidden
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+
+// открываем и закрываем блок setup по клику
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = userDialog.querySelector('.setup-close');
+var userIcon = document.querySelector('.setup-open-icon');
+
+// выбираем элементы вылшебника для измененеия цвета по клику
+var setUpWizard = userDialog.querySelector('.setup-player');
+var setUpCoat = setUpWizard.querySelector('.wizard-coat');
+var setUpEyes = setUpWizard.querySelector('.wizard-eyes');
+var setUpFireBall = setUpWizard.querySelector('.setup-fireball-wrap');
+
+// ========================= обработка открытия закрытия окна настроек ===========================================
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  userDialog.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  userDialog.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+// и по нажатию enter на иконке пользователя
+userIcon.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+// проверим вводимые данные на ошибки
+var userNameInput = userDialog.querySelector('.setup-user-name');
+
+// обработаем событие invalid - некорректное заполнение формы
+userNameInput.addEventListener('invalid', function () {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+  } else {
+    userNameInput.setCustomValidity(''); // сбросить значение поля, если это значение стало корректно
+  }
+});
+
+// переопределять стандартное поведение валидации
+userNameInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+// ========================= отрисовка похожих персонажей ===========================================
 
 // покажем блок с похожими персонажами
 document.querySelector('.setup-similar').classList.remove('hidden');
@@ -52,6 +133,14 @@ var WIZARD_COATCOLORS = [
   'rgb(0, 0, 0)'
 ];
 
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 // генерируем случайные номер элемента в массиве
 var getRandomNumber = function (arryaName) {
   return Math.floor(Math.random() * arryaName.length);
@@ -90,4 +179,18 @@ for (var i = 0; i < getWizards(4).length; i++) {
 }
 
 similarListElement.appendChild(fragment);
+
+// ========================= обработка изменения цвета элементов волшебника ===========================================
+
+setUpCoat.addEventListener('click', function () {
+  setUpCoat.style.fill = WIZARD_COATCOLORS[getRandomNumber(WIZARD_COATCOLORS)];
+});
+
+setUpEyes.addEventListener('click', function () {
+  setUpEyes.style.fill = WIZARD_EYESCOLORS[getRandomNumber(WIZARD_EYESCOLORS)];
+});
+
+setUpFireBall.addEventListener('click', function () {
+  setUpFireBall.style.backgroundColor = FIREBALL_COLORS[getRandomNumber(FIREBALL_COLORS)];
+});
 
