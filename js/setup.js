@@ -26,6 +26,12 @@ var onPopupEscPress = function (evt) {
   }
 };
 
+userNameInput.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+  }
+});
+
 var openPopup = function () {
   userDialog.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
