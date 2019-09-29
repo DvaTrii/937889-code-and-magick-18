@@ -11,6 +11,7 @@ var userDialog = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = userDialog.querySelector('.setup-close');
 var userIcon = document.querySelector('.setup-open-icon');
+var userNameInput = userDialog.querySelector('.setup-user-name');
 
 // выбираем элементы вылшебника для измененеия цвета по клику
 var setUpWizard = userDialog.querySelector('.setup-player');
@@ -20,7 +21,7 @@ var setUpFireBall = setUpWizard.querySelector('.setup-fireball-wrap');
 
 // ========================= обработка открытия закрытия окна настроек ===========================================
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && document.activeElement !== userNameInput) {
     closePopup();
   }
 };
@@ -57,8 +58,6 @@ setupClose.addEventListener('keydown', function (evt) {
 });
 
 // проверим вводимые данные на ошибки
-var userNameInput = userDialog.querySelector('.setup-user-name');
-
 // обработаем событие invalid - некорректное заполнение формы
 userNameInput.addEventListener('invalid', function () {
   if (userNameInput.validity.tooShort) {
@@ -69,16 +68,6 @@ userNameInput.addEventListener('invalid', function () {
     userNameInput.setCustomValidity('Обязательное поле');
   } else {
     userNameInput.setCustomValidity(''); // сбросить значение поля, если это значение стало корректно
-  }
-});
-
-// переопределять стандартное поведение валидации
-userNameInput.addEventListener('input', function (evt) {
-  var target = evt.target;
-  if (target.value.length < 2) {
-    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-  } else {
-    target.setCustomValidity('');
   }
 });
 
