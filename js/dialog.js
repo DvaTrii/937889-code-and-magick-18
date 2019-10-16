@@ -29,6 +29,7 @@
   var closePopup = function () {
     window.utils.userDialog.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
+    window.utils.userDialog.removeAttribute('style');
   };
 
   setupOpen.addEventListener('click', function () {
