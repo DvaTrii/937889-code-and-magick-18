@@ -2,9 +2,6 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  // показали область настройки - убрали класс hidden
-  // var userDialog = document.querySelector('.setup');
-  // открываем и закрываем блок setup по клику
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = window.utils.userDialog.querySelector('.setup-close');
   var userIcon = document.querySelector('.setup-open-icon');
@@ -40,7 +37,6 @@
     closePopup();
   });
 
-  // и по нажатию enter на иконке пользователя
   userIcon.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       openPopup();
@@ -53,8 +49,6 @@
     }
   });
 
-  // проверим вводимые данные на ошибки
-  // обработаем событие invalid - некорректное заполнение формы
   userNameInput.addEventListener('invalid', function () {
     if (userNameInput.validity.tooShort) {
       userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
@@ -66,4 +60,13 @@
       userNameInput.setCustomValidity(''); // сбросить значение поля, если это значение стало корректно
     }
   });
+
+  var form = window.utils.userDialog.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      window.utils.userDialog.classList.add('hidden');
+    });
+    evt.preventDefault();
+  });
+
 })();
