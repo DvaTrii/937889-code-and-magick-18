@@ -61,11 +61,25 @@
     }
   });
 
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var loadHandler = function () {
+    window.utils.userDialog.classList.add('hidden');
+  };
+
   var form = window.utils.userDialog.querySelector('.setup-wizard-form');
   form.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(form), function () {
-      window.utils.userDialog.classList.add('hidden');
-    });
+    window.backend.save(new FormData(form), loadHandler, errorHandler);
     evt.preventDefault();
   });
 
